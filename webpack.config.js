@@ -12,17 +12,18 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          { loader: 'css-loader', options: { importLoaders: 1 } },
-          'postcss-loader',
-        ],
-      }],
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'index.html',
+      template: 'template.html',
     }),
   ],
+  devServer: {
+    contentBase: './dist',
+  },
 };
