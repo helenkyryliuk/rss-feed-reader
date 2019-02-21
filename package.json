@@ -21,11 +21,14 @@
   },
   "homepage": "https://github.com/helenkyryliuk/project-lvl3-s390#readme",
   "dependencies": {
+    "@babel/polyfill": "^7.2.5",
+    "axios": "^0.18.0",
     "bootstrap": "^4.1.2",
+    "cors-anywhere": "^0.4.1",
     "jquery": "^3.3.1",
+    "melanke-watchjs": "*",
     "popper.js": "^1.14.6",
-    "validator": "^10.4.0",
-    "@babel/polyfill": "^7.2.5"
+    "validator": "^10.11.0"
   },
   "devDependencies": {
     "css-loader": "^2.1.0",
