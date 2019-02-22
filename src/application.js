@@ -87,9 +87,13 @@ export default () => {
 
       const headerRow = document.createElement('div');
       headerRow.classList.add('card-header');
+      const cardDiv = document.createElement('div');
+      cardDiv.classList.add('card');
+      cardDiv.append(headerRow);
+      cardDiv.append(divRow);
+
       const el = document.querySelector('div.container');
-      el.append(headerRow);
-      el.append(divRow);
+      el.append(cardDiv);
 
 
       const headerForChannel = document.createElement('h5');
@@ -119,12 +123,18 @@ export default () => {
         col4.appendChild(p);
         const paragraphLink = document.createElement('p');
         col4.appendChild(paragraphLink);
-        const link = document.createElement('a');
+        const link = document.createElement('button');
         link.classList.add('btn', 'btn-info');
         link.textContent = 'View details';
-        link.setAttribute('href', item.querySelector('link').textContent);
+        link.setAttribute('data-toggle', 'modal');
+        link.setAttribute('data-target', '#exampleModalCenter');
+        const modalTitle = document.querySelector('.modal-title');
+        modalTitle.textContent = item.querySelector('title').textContent;
+        const modalBody = document.querySelector('.modal-body');
+        modalBody.textContent = item.querySelector('description').textContent;
         paragraphLink.appendChild(link);
       });
     });
   });
 };
+// item.querySelector('description').textContent
