@@ -1,7 +1,7 @@
 import axios from 'axios';
 import validator from 'validator';
 import {
-  watch
+  watch,
 } from 'melanke-watchjs';
 
 export default () => {
@@ -11,30 +11,23 @@ export default () => {
       channels: [],
     },
   };
-  console.log(state.menu);
+
   watch(state, 'menu', () => {
     const currentBodyEl = document.getElementById('rssLinkInput');
     const prevousBodyEl = document.getElementById('feedback');
-    console.log(state.menu);
-
     if (state.menu.isValidLink === 'notvalid') {
-
       currentBodyEl.classList.remove('is-valid');
       currentBodyEl.classList.add('is-invalid');
       prevousBodyEl.classList.remove('valid-feedback');
       prevousBodyEl.classList.add('invalid-feedback');
       prevousBodyEl.textContent = 'Please provide a valid RSS feed link.';
-
     } else if (state.menu.isValidLink === 'valid') {
-
       currentBodyEl.classList.remove('is-invalid');
       currentBodyEl.classList.add('is-valid');
       prevousBodyEl.classList.remove('invalid-feedback');
       prevousBodyEl.classList.add('valid-feedback');
       prevousBodyEl.textContent = 'Success!';
-
     } else if (state.menu.isValidLink === 'linkAlreadyExist') {
-
       currentBodyEl.classList.remove('is-valid');
       currentBodyEl.classList.add('is-invalid');
       prevousBodyEl.classList.remove('valid-feedback');
@@ -48,11 +41,9 @@ export default () => {
       prevousBodyEl.textContent = '';
     }
   });
-
   const inputField = document.getElementById('rssLinkInput');
   inputField.addEventListener('input', (e) => {
     const filteredChannels = state.menu.channels.filter(elem => elem === e.target.value);
-    console.log(filteredChannels);
     if (validator.isURL(e.target.value) && (filteredChannels.length === 0)) {
       state.menu = {
         isValidLink: 'valid',
@@ -63,28 +54,25 @@ export default () => {
         isValidLink: 'linkAlreadyExist',
         channels: state.menu.channels,
       };
-
     } else if (e.target.value === '') {
       state.menu = {
         isValidLink: null,
         channels: state.menu.channels,
-
       };
     } else {
       state.menu = {
         isValidLink: 'notvalid',
         channels: state.menu.channels,
-
       };
     }
-  })
+  });
 
   const element = document.getElementById('buttonOnSubmit');
-  element.addEventListener('click', (e) => {
-    const value = document.getElementById("rssLinkInput").value;
+  element.addEventListener('click', () => {
+    const inputValue = document.getElementById('rssLinkInput').value;
 
     const corsApiUrl = 'https://cors-anywhere.herokuapp.com/';
-    axios.get(`${corsApiUrl}${value}`).then((res) => {
+    axios.get(`${corsApiUrl}${inputValue}`).then((res) => {
       state.menu = {
         isValidLink: null,
         channels: state.menu.channels,
@@ -99,12 +87,11 @@ export default () => {
 
       const headerRow = document.createElement('div');
       headerRow.classList.add('card-header');
-      const el = document.querySelector("div.container");
-      el.append(headerRow); 
+      const el = document.querySelector('div.container');
+      el.append(headerRow);
       el.append(divRow);
 
 
-     
       const headerForChannel = document.createElement('h5');
       headerForChannel.classList.add('card-title');
       const descriptionForChannel = document.createElement('p');
@@ -116,7 +103,7 @@ export default () => {
 
       state.menu = {
         isValidLink: null,
-        channels: [value, ...state.menu.channels],
+        channels: [inputValue, ...state.menu.channels],
       };
 
       doc.querySelectorAll('item').forEach((item) => {
@@ -137,8 +124,7 @@ export default () => {
         link.textContent = 'View details';
         link.setAttribute('href', item.querySelector('link').textContent);
         paragraphLink.appendChild(link);
-
-      })
-    })
+      });
+    });
   });
 };
