@@ -3,6 +3,7 @@ import validator from 'validator';
 import {
   watch,
 } from 'melanke-watchjs';
+import $ from 'jquery';
 
 export default () => {
   const state = {
@@ -110,6 +111,16 @@ export default () => {
         channels: [inputValue, ...state.menu.channels],
       };
 
+      $('#exampleModalCenter').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget);
+        const header = button.data('title');
+        const content = button.data('content');
+        const modal = $(this);
+        modal.find('.modal-title').text(header);
+        modal.find('.modal-body').text(content);
+      });
+
+
       doc.querySelectorAll('item').forEach((item) => {
         const col4 = document.createElement('div');
         col4.classList.add('col-md-4');
@@ -128,13 +139,10 @@ export default () => {
         link.textContent = 'View details';
         link.setAttribute('data-toggle', 'modal');
         link.setAttribute('data-target', '#exampleModalCenter');
-        const modalTitle = document.querySelector('.modal-title');
-        modalTitle.textContent = item.querySelector('title').textContent;
-        const modalBody = document.querySelector('.modal-body');
-        modalBody.textContent = item.querySelector('description').textContent;
+        link.setAttribute('data-title', item.querySelector('title').textContent);
+        link.setAttribute('data-content', item.querySelector('description').textContent);
         paragraphLink.appendChild(link);
       });
     });
   });
 };
-// item.querySelector('description').textContent
