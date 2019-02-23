@@ -26,6 +26,7 @@
     "bootstrap": "^4.1.2",
     "cors-anywhere": "^0.4.1",
     "jquery": "^3.3.1",
+    "lodash": "^4.17.11",
     "melanke-watchjs": "*",
     "popper.js": "^1.14.6",
     "validator": "^10.11.0"

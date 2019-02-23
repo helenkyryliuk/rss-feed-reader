@@ -4,53 +4,53 @@ import {
   watch,
 } from 'melanke-watchjs';
 import $ from 'jquery';
+import _ from 'lodash';
 
 export default () => {
   const state = {
     menu: {
       isValidLink: null,
-      channels: [],
+      channels: {},
     },
   };
 
   watch(state, 'menu', () => {
-    const currentBodyEl = document.getElementById('rssLinkInput');
-    const prevousBodyEl = document.getElementById('feedback');
+    const rssLinkInputBorder = document.getElementById('rssLinkInput');
+    const validationMessage = document.getElementById('feedback');
     if (state.menu.isValidLink === 'notvalid') {
-      currentBodyEl.classList.remove('is-valid');
-      currentBodyEl.classList.add('is-invalid');
-      prevousBodyEl.classList.remove('valid-feedback');
-      prevousBodyEl.classList.add('invalid-feedback');
-      prevousBodyEl.textContent = 'Please provide a valid RSS feed link.';
+      rssLinkInputBorder.classList.remove('is-valid');
+      rssLinkInputBorder.classList.add('is-invalid');
+      validationMessage.classList.remove('valid-feedback');
+      validationMessage.classList.add('invalid-feedback');
+      validationMessage.textContent = 'Please provide a valid RSS feed link.';
     } else if (state.menu.isValidLink === 'valid') {
-      currentBodyEl.classList.remove('is-invalid');
-      currentBodyEl.classList.add('is-valid');
-      prevousBodyEl.classList.remove('invalid-feedback');
-      prevousBodyEl.classList.add('valid-feedback');
-      prevousBodyEl.textContent = 'Success!';
+      rssLinkInputBorder.classList.remove('is-invalid');
+      rssLinkInputBorder.classList.add('is-valid');
+      validationMessage.classList.remove('invalid-feedback');
+      validationMessage.classList.add('valid-feedback');
+      validationMessage.textContent = 'Success!';
     } else if (state.menu.isValidLink === 'linkAlreadyExist') {
-      currentBodyEl.classList.remove('is-valid');
-      currentBodyEl.classList.add('is-invalid');
-      prevousBodyEl.classList.remove('valid-feedback');
-      prevousBodyEl.classList.add('invalid-feedback');
-      prevousBodyEl.textContent = 'This channel has already been added. Please choose another one.';
+      rssLinkInputBorder.classList.remove('is-valid');
+      rssLinkInputBorder.classList.add('is-invalid');
+      validationMessage.classList.remove('valid-feedback');
+      validationMessage.classList.add('invalid-feedback');
+      validationMessage.textContent = 'This channel has already been added. Please choose another one.';
     } else {
-      currentBodyEl.classList.remove('is-invalid');
-      prevousBodyEl.classList.remove('invalid-feedback');
-      currentBodyEl.classList.remove('is-valid');
-      prevousBodyEl.classList.remove('valid-feedback');
-      prevousBodyEl.textContent = '';
+      rssLinkInputBorder.classList.remove('is-invalid');
+      validationMessage.classList.remove('invalid-feedback');
+      rssLinkInputBorder.classList.remove('is-valid');
+      validationMessage.classList.remove('valid-feedback');
     }
   });
   const inputField = document.getElementById('rssLinkInput');
   inputField.addEventListener('input', (e) => {
-    const filteredChannels = state.menu.channels.filter(elem => elem === e.target.value);
-    if (validator.isURL(e.target.value) && (filteredChannels.length === 0)) {
+    const checkIfChannelExist = _.has(state.menu.channels, e.target.value);
+    if (validator.isURL(e.target.value) && (checkIfChannelExist === false)) {
       state.menu = {
         isValidLink: 'valid',
         channels: state.menu.channels,
       };
-    } else if (filteredChannels.length > 0) {
+    } else if (checkIfChannelExist === false) {
       state.menu = {
         isValidLink: 'linkAlreadyExist',
         channels: state.menu.channels,
@@ -108,7 +108,10 @@ export default () => {
 
       state.menu = {
         isValidLink: null,
-        channels: [inputValue, ...state.menu.channels],
+        channels: {
+          inputValue,
+          ...state.menu.channels
+        },
       };
 
       $('#exampleModalCenter').on('show.bs.modal', function (event) {
