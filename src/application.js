@@ -44,33 +44,43 @@ export default () => {
       validationMessage.classList.add('invalid-feedback');
       validationMessage.textContent = 'This channel has already been added. Please choose another one.';
     } else if ((state.menu.isFormSubmitted === 'submitted') && (state.menu.isChannelLoaded === 'inProgress')) {
+      alert.classList.remove('alert-warning');
       alert.classList.add('alert-info');
       alert.textContent = 'Loading...';
       rssLinkInputBorder.classList.remove('is-valid');
       submitButton.classList.add('disabled');
-      // rssLinkInputBorder.setAttribute('readonly', true);
+      rssLinkInputBorder.setAttribute('readonly', true);
       validationMessage.textContent = '';
     } else if (state.menu.isChannelLoaded === 'failed') {
       alert.classList.remove('alert-info');
       alert.classList.add('alert-warning');
       alert.textContent = 'Failed to load the channel. Please try again.';
       submitButton.classList.remove('disabled');
+      rssLinkInputBorder.removeAttribute('readonly');
     } else if (state.menu.isChannelLoaded === 'succeeded') {
       alert.classList.remove('alert-info');
+      alert.classList.remove('alert-warning');
       alert.classList.add('alert-success');
       alert.textContent = 'The channel has successfully been added to the feed!';
       submitButton.classList.remove('disabled');
+      rssLinkInputBorder.removeAttribute('readonly');
     } else {
+      alert.classList.remove('alert-info');
+      alert.classList.remove('alert-warning');
+      alert.classList.remove('alert-success');
       rssLinkInputBorder.classList.remove('is-invalid');
       validationMessage.classList.remove('invalid-feedback');
       rssLinkInputBorder.classList.remove('is-valid');
       validationMessage.classList.remove('valid-feedback');
+      validationMessage.textContent = '';
+      alert.textContent = '';
     }
   });
 
   const inputField = document.getElementById('rssLinkInput');
   inputField.addEventListener('input', (e) => {
     const checkIfChannelExists = _.has(state.menu.channels, e.target.value);
+    console.log(checkIfChannelExists);
     if (validator.isURL(e.target.value) && (checkIfChannelExists === false)) {
       state.menu = {
         isValidLink: 'valid',
@@ -82,6 +92,7 @@ export default () => {
     } else if (e.target.value === '') {
       state.menu = {
         isValidLink: null,
+        isChannelLoaded: null,
       };
     } else {
       state.menu = {
