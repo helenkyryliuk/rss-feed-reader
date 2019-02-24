@@ -17,7 +17,6 @@ export default () => {
   watch(state, 'isValidLink', () => {
     const rssLinkInputBorder = document.getElementById('rssLinkInput');
     const validationMessage = document.getElementById('feedback');
-    const alert = document.querySelector('div.alert');
     if (state.isValidLink === 'notvalid') {
       rssLinkInputBorder.classList.remove('is-valid');
       rssLinkInputBorder.classList.add('is-invalid');
@@ -37,15 +36,11 @@ export default () => {
       validationMessage.classList.add('invalid-feedback');
       validationMessage.textContent = 'This channel has already been added. Please choose another one.';
     } else {
-      alert.classList.remove('alert-info');
-      alert.classList.remove('alert-warning');
-      alert.classList.remove('alert-success');
       rssLinkInputBorder.classList.remove('is-invalid');
       validationMessage.classList.remove('invalid-feedback');
       rssLinkInputBorder.classList.remove('is-valid');
       validationMessage.classList.remove('valid-feedback');
       validationMessage.textContent = '';
-      alert.textContent = '';
     }
   });
 
@@ -97,8 +92,7 @@ export default () => {
     }
   });
 
-  watch(state, ['channels', 'channelLinks'], () => {
-    console.log(state.channels.length);
+  watch(state, 'channels', () => {
     const items = state.channels;
     items.map(e => renderChannel(e.channelTitle, e.channelDescription, e.channelArticles));
   });
@@ -107,7 +101,6 @@ export default () => {
   inputField.addEventListener('input', (e) => {
     state.isChannelLoaded = null;
     const checkIfChannelExists = state.channelLinks.filter(link => link === e.target.value);
-    console.log(checkIfChannelExists.length);
     if (validator.isURL(e.target.value) && (checkIfChannelExists.length === 0)) {
       state.isValidLink = 'valid';
     } else if (checkIfChannelExists.length > 0) {
@@ -122,7 +115,6 @@ export default () => {
   const element = document.getElementById('buttonOnSubmit');
   element.addEventListener('click', () => {
     const channelLink = document.getElementById('rssLinkInput').value;
-    console.log(channelLink);
     if ((channelLink === '')) {
       state.isValidLink = 'notvalid';
       return;
