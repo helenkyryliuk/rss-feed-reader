@@ -3,7 +3,6 @@ import validator from 'validator';
 import {
   watch,
 } from 'melanke-watchjs';
-import _ from 'lodash';
 import parseXML from './XMLparser';
 import renderChannel from './renderers';
 
@@ -20,7 +19,8 @@ export default () => {
 
   watch(state, 'menu', () => {
     console.log(state.menu);
-    state.menu.channels.map(e => renderChannel(e.channelTitle, e.channelDescription, e.channelArticles));
+    const items = state.menu.channels;
+    items.map(e => renderChannel(e.channelTitle, e.channelDescription, e.channelArticles));
     const rssLinkInputBorder = document.getElementById('rssLinkInput');
     const validationMessage = document.getElementById('feedback');
     const submitButton = document.getElementById('buttonOnSubmit');
@@ -114,7 +114,7 @@ export default () => {
     const corsApiUrl = 'https://cors-anywhere.herokuapp.com/';
     axios.get(`${corsApiUrl}${channelLink}`).then((res) => {
       state.menu.isValidLink = null;
-      state.menu.channels = [ parseXML(res.data), ...state.menu.channels];
+      state.menu.channels = [parseXML(res.data), ...state.menu.channels];
       state.menu.channelLinks = [channelLink, ...state.menu.channelLinks];
       state.menu.isChannelLoaded = 'succeeded';
     }).catch(() => {
