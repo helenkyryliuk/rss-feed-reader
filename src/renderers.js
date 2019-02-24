@@ -23,6 +23,7 @@ const renderChannel = (channelTitle, channelDescription, articles) => {
     col4.classList.add('col-md-4');
     divRow.append(col4);
     const headerLink = document.createElement('a');
+    headerLink.setAttribute('href', article.link);
     headerLink.textContent = article.title;
     col4.appendChild(headerLink);
     const p = document.createElement('p');
