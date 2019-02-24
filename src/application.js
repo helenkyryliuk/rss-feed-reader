@@ -7,11 +7,11 @@ import parseXML from './XMLparser';
 import renderChannel from './renderers';
 
 export default () => {
-  const state = { 
-      isValidLink: null,
-      channels: [],
-      channelLinks: [],
-      isChannelLoaded: null,
+  const state = {
+    isValidLink: null,
+    channels: [],
+    channelLinks: [],
+    isChannelLoaded: null,
   };
 
   watch(state, 'isValidLink', () => {
@@ -126,20 +126,20 @@ export default () => {
     if ((channelLink === '')) {
       state.isValidLink = 'notvalid';
       return;
-    } else if (state.isValidLink === 'linkAlreadyExists') {
-      return;
-    } else {
-      state.isChannelLoaded = 'inProgress';
-      const corsApiUrl = 'https://cors-anywhere.herokuapp.com/';
-      axios.get(`${corsApiUrl}${channelLink}`).then((res) => {
-        state.isValidLink = null;
-        state.channels = [parseXML(res.data), ...state.channels];
-        state.channelLinks = [channelLink, ...state.channelLinks];
-        state.isChannelLoaded = 'succeeded';
-      }).catch(() => {
-        state.isChannelLoaded = 'failed';
-        state.isValidLink = null;
-      });
     }
+    if (state.isValidLink === 'linkAlreadyExists') {
+      return;
+    }
+    state.isChannelLoaded = 'inProgress';
+    const corsApiUrl = 'https://cors-anywhere.herokuapp.com/';
+    axios.get(`${corsApiUrl}${channelLink}`).then((res) => {
+      state.isValidLink = null;
+      state.channels = [parseXML(res.data), ...state.channels];
+      state.channelLinks = [channelLink, ...state.channelLinks];
+      state.isChannelLoaded = 'succeeded';
+    }).catch(() => {
+      state.isChannelLoaded = 'failed';
+      state.isValidLink = null;
+    });
   });
 };
