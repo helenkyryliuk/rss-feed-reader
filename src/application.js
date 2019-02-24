@@ -11,7 +11,7 @@ export default () => {
   const state = {
     menu: {
       isValidLink: null,
-      channels: {},
+      channels: [],
       channelLinks: [],
       isFormSubmitted: 'notSubmitted',
       isChannelLoaded: null,
@@ -19,9 +19,8 @@ export default () => {
   };
 
   watch(state, 'menu', () => {
-    console.log(state.menu.channels);
-    const channelValues = _.values(state.menu.channels);
-    channelValues.map(e => renderChannel(e.channelTitle, e.channelDescription, e.channelArticles));
+    console.log(state.menu);
+    state.menu.channels.map(e => renderChannel(e.channelTitle, e.channelDescription, e.channelArticles));
     const rssLinkInputBorder = document.getElementById('rssLinkInput');
     const validationMessage = document.getElementById('feedback');
     const submitButton = document.getElementById('buttonOnSubmit');
@@ -59,6 +58,9 @@ export default () => {
       submitButton.classList.remove('disabled');
       rssLinkInputBorder.value = '';
       rssLinkInputBorder.removeAttribute('readonly');
+      rssLinkInputBorder.classList.remove('is-valid');
+      validationMessage.classList.remove('valid-feedback');
+      validationMessage.textContent = '';
     } else if (state.menu.isChannelLoaded === 'succeeded') {
       alert.classList.remove('alert-info');
       alert.classList.remove('alert-warning');
@@ -67,6 +69,9 @@ export default () => {
       submitButton.classList.remove('disabled');
       rssLinkInputBorder.removeAttribute('readonly');
       rssLinkInputBorder.value = '';
+      rssLinkInputBorder.classList.remove('is-valid');
+      validationMessage.classList.remove('valid-feedback');
+      validationMessage.textContent = '';
     } else {
       alert.classList.remove('alert-info');
       alert.classList.remove('alert-warning');
@@ -85,68 +90,37 @@ export default () => {
     const checkIfChannelExists = state.menu.channelLinks.filter(link => link === e.target.value);
     console.log(checkIfChannelExists);
     if (validator.isURL(e.target.value) && (checkIfChannelExists.length === 0)) {
-      state.menu = {
-        isValidLink: 'valid',
-        channels: state.menu.channels,
-        channelLinks: state.menu.channelLinks,
-      };
-    } else if (checkIfChannelExists > 0) {
-      state.menu = {
-        isValidLink: 'linkAlreadyExist',
-        channels: state.menu.channels,
-        channelLinks: state.menu.channelLinks,
-      };
+      state.menu.isValidLink = 'valid';
+    } else if (checkIfChannelExists.length > 0) {
+      state.menu.isValidLink = 'linkAlreadyExist';
     } else if (e.target.value === '') {
-      state.menu = {
-        isValidLink: null,
-        isChannelLoaded: null,
-        channels: state.menu.channels,
-        channelLinks: state.menu.channelLinks,
-      };
+      state.menu.isValidLink = null;
+      state.menu.isChannelLoaded = null;
     } else {
-      state.menu = {
-        isValidLink: 'notvalid',
-        channels: state.menu.channels,
-        channelLinks: state.menu.channelLinks,
-      };
+      state.menu.isValidLink = 'notvalid';
     }
   });
 
   const element = document.getElementById('buttonOnSubmit');
   element.addEventListener('click', () => {
-    state.menu = {
-      isFormSubmitted: 'submitted',
-      isChannelLoaded: 'inProgress',
-      channels: state.menu.channels,
-      channelLinks: state.menu.channelLinks,
-    };
+    state.menu.isFormSubmitted = 'submitted';
+    state.menu.isChannelLoaded = 'inProgress';
     const channelLink = document.getElementById('rssLinkInput').value;
     console.log(channelLink);
-    if (channelLink === '') {
-      state.menu = {
-        isValidLink: 'notvalid',
-        channels: state.menu.channels,
-        channelLinks: state.menu.channelLinks,
-      };
+    if ((channelLink === '') || (state.menu.isValidLink === 'linkAlreadyExist')) {
+      state.menu.isValidLink = 'notvalid';
       return;
     }
     const corsApiUrl = 'https://cors-anywhere.herokuapp.com/';
     axios.get(`${corsApiUrl}${channelLink}`).then((res) => {
-      state.menu = {
-        isValidLink: null,
-        channels: {
-          channelLink: parseXML(res.data),
-          ...state.menu.channels,
-        },
-        channelLinks: [channelLink, ...state.menu.channelLinks],
-        isChannelLoaded: 'succeeded',
-      };
+      state.menu.isValidLink = null;
+      state.menu.channels = [ parseXML(res.data), ...state.menu.channels];
+      state.menu.channelLinks = [channelLink, ...state.menu.channelLinks];
+      state.menu.isChannelLoaded = 'succeeded';
     }).catch(() => {
-      state.menu = {
-        isChannelLoaded: 'failed',
-        channels: state.menu.channels,
-        channelLinks: state.menu.channelLinks,
-      };
+      state.menu.isChannelLoaded = 'failed';
+      state.menu.isValidLink = null;
+      state.menu.isFormSubmitted = 'notSubmitted';
     });
   });
 };
