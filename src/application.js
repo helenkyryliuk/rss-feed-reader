@@ -12,13 +12,12 @@ export default () => {
       isValidLink: null,
       channels: [],
       channelLinks: [],
-      isFormSubmitted: 'notSubmitted',
       isChannelLoaded: null,
     },
   };
 
   watch(state, 'menu', () => {
-    console.log(state.menu);
+    console.log(state.menu.channels.length);
     const items = state.menu.channels;
     items.map(e => renderChannel(e.channelTitle, e.channelDescription, e.channelArticles));
     const rssLinkInputBorder = document.getElementById('rssLinkInput');
@@ -37,14 +36,15 @@ export default () => {
       validationMessage.classList.remove('invalid-feedback');
       validationMessage.classList.add('valid-feedback');
       validationMessage.textContent = 'Success!';
-    } else if (state.menu.isValidLink === 'linkAlreadyExist') {
+    } else if (state.menu.isValidLink === 'linkAlreadyExists') {
       rssLinkInputBorder.classList.remove('is-valid');
       rssLinkInputBorder.classList.add('is-invalid');
       validationMessage.classList.remove('valid-feedback');
       validationMessage.classList.add('invalid-feedback');
       validationMessage.textContent = 'This channel has already been added. Please choose another one.';
-    } else if ((state.menu.isFormSubmitted === 'submitted') && (state.menu.isChannelLoaded === 'inProgress')) {
+    } else if (state.menu.isChannelLoaded === 'inProgress') {
       alert.classList.remove('alert-warning');
+      alert.classList.remove('alert-success');
       alert.classList.add('alert-info');
       alert.textContent = 'Loading...';
       rssLinkInputBorder.classList.remove('is-valid');
@@ -87,15 +87,15 @@ export default () => {
 
   const inputField = document.getElementById('rssLinkInput');
   inputField.addEventListener('input', (e) => {
+    state.menu.isChannelLoaded = null;
     const checkIfChannelExists = state.menu.channelLinks.filter(link => link === e.target.value);
-    console.log(checkIfChannelExists);
+    console.log(checkIfChannelExists.length);
     if (validator.isURL(e.target.value) && (checkIfChannelExists.length === 0)) {
       state.menu.isValidLink = 'valid';
     } else if (checkIfChannelExists.length > 0) {
-      state.menu.isValidLink = 'linkAlreadyExist';
+      state.menu.isValidLink = 'linkAlreadyExists';
     } else if (e.target.value === '') {
       state.menu.isValidLink = null;
-      state.menu.isChannelLoaded = null;
     } else {
       state.menu.isValidLink = 'notvalid';
     }
@@ -103,24 +103,25 @@ export default () => {
 
   const element = document.getElementById('buttonOnSubmit');
   element.addEventListener('click', () => {
-    state.menu.isFormSubmitted = 'submitted';
     state.menu.isChannelLoaded = 'inProgress';
     const channelLink = document.getElementById('rssLinkInput').value;
     console.log(channelLink);
-    if ((channelLink === '') || (state.menu.isValidLink === 'linkAlreadyExist')) {
+    if ((channelLink === '')) {
       state.menu.isValidLink = 'notvalid';
       return;
+    } else if (state.menu.isValidLink === 'linkAlreadyExists') {
+      return;
+    } else {
+      const corsApiUrl = 'https://cors-anywhere.herokuapp.com/';
+      axios.get(`${corsApiUrl}${channelLink}`).then((res) => {
+        state.menu.isValidLink = null;
+        state.menu.channels = [parseXML(res.data), ...state.menu.channels];
+        state.menu.channelLinks = [channelLink, ...state.menu.channelLinks];
+        state.menu.isChannelLoaded = 'succeeded';
+      }).catch(() => {
+        state.menu.isChannelLoaded = 'failed';
+        state.menu.isValidLink = null;
+      });
     }
-    const corsApiUrl = 'https://cors-anywhere.herokuapp.com/';
-    axios.get(`${corsApiUrl}${channelLink}`).then((res) => {
-      state.menu.isValidLink = null;
-      state.menu.channels = [parseXML(res.data), ...state.menu.channels];
-      state.menu.channelLinks = [channelLink, ...state.menu.channelLinks];
-      state.menu.isChannelLoaded = 'succeeded';
-    }).catch(() => {
-      state.menu.isChannelLoaded = 'failed';
-      state.menu.isValidLink = null;
-      state.menu.isFormSubmitted = 'notSubmitted';
-    });
   });
 };
