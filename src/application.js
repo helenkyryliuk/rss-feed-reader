@@ -8,9 +8,7 @@ import renderChannelList from './renderers';
 
 const runUpdateEveryFiveSeconds = (links, corsUrl) => {
   const promises = links.map(item => axios.get(`${corsUrl}${item}`));
-  console.log(promises);
   return Promise.all(promises).then((res) => {
-    console.log(res);
     const newChannelList = res.map(item => parseXML(item.data));
     return newChannelList;
   });
@@ -133,7 +131,6 @@ export default () => {
 
   const runUpdate = () => {
     const newschannels = runUpdateEveryFiveSeconds(state.channelLinks, corsApiUrl);
-    console.log(newschannels);
     newschannels.then((res) => {
       state.channels = res;
     });
@@ -154,7 +151,6 @@ export default () => {
     axios.get(`${corsApiUrl}${channelLink}`).then((res) => {
       state.linkValidationState = null;
       state.channels = [parseXML(res.data), ...state.channels];
-      console.log(state.channels);
       state.channelLinks = [channelLink, ...state.channelLinks];
       state.channelLoadingState = 'succeeded';
       runUpdate();
