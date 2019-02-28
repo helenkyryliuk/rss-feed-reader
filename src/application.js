@@ -22,7 +22,6 @@ export default () => {
     channels: [],
     channelLinks: [],
     channelLoadingState: null,
-    articles: [],
   };
 
   watch(state, 'linkValidationState', () => {
