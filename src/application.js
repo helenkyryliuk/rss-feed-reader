@@ -4,7 +4,21 @@ import {
   watch,
 } from 'melanke-watchjs';
 import parseXML from './XMLparser';
-import renderChannel from './renderers';
+import { renderChannelList } from './renderers';
+import _ from 'lodash';
+
+const runUpdateEveryFiveSeconds = (links, corsUrl) => {
+  const promises = links.map(item => axios.get(`${corsUrl}${item}`));
+  console.log(promises);
+  return Promise.all(promises).then((res) => {
+    console.log(res);
+    const newChannelList = res.map((item) => parseXML(item.data));
+   return newChannelList
+    
+  });
+};
+
+const corsApiUrl = 'https://cors-anywhere.herokuapp.com/';
 
 export default () => {
   const state = {
@@ -12,12 +26,13 @@ export default () => {
     channels: [],
     channelLinks: [],
     channelLoadingState: null,
+    articles: [],
   };
 
   watch(state, 'linkValidationState', () => {
     const rssLinkInputBorder = document.getElementById('rssLinkInput');
     const validationMessage = document.getElementById('feedback');
-    switch (state.channelLoadingState) {
+    switch (state.linkValidationState) {
       case 'notvalid':
         rssLinkInputBorder.classList.remove('is-valid');
         rssLinkInputBorder.classList.add('is-invalid');
@@ -99,9 +114,8 @@ export default () => {
     }
   });
 
-  watch(state, 'channels', () => {
-    const items = state.channels;
-    items.map(e => renderChannel(e.channelTitle, e.channelDescription, e.channelArticles));
+  watch(state, ['channels'], () => {
+    renderChannelList(state.channels);
   });
 
   const inputField = document.getElementById('rssLinkInput');
@@ -130,10 +144,15 @@ export default () => {
       return;
     }
     state.channelLoadingState = 'inProgress';
-    const corsApiUrl = 'https://cors-anywhere.herokuapp.com/';
+   
+
+    // runUpdateEveryFiveSeconds(state.channelRequests, channelLink);
+    
     axios.get(`${corsApiUrl}${channelLink}`).then((res) => {
+      console.log(state.channelLinks);
       state.linkValidationState = null;
       state.channels = [parseXML(res.data), ...state.channels];
+      console.log(state.channels);
       state.channelLinks = [channelLink, ...state.channelLinks];
       state.channelLoadingState = 'succeeded';
     }).catch(() => {
@@ -141,4 +160,14 @@ export default () => {
       state.linkValidationState = null;
     });
   });
+  const runUpdate = () => {
+    const newschannels = runUpdateEveryFiveSeconds(state.channelLinks, corsApiUrl);
+    console.log(newschannels);
+   newschannels.then((res) => {
+    state.channels = res;
+    });
+  
+  setTimeout(runUpdate, 5000);
+  }
+  runUpdate();
 };

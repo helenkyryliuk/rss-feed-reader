@@ -4,8 +4,10 @@ const parseXML = (data) => {
 
   const items = doc.querySelectorAll('item');
   const parseArticles = [...items].map(item => ({
-    title: item.querySelector('title').textContent,
-    description: item.querySelector('description').textContent,
+    articleLink: item.querySelector('link').textContent,
+    currentChannelTitle: doc.querySelector('title').textContent,
+    articleTitle: item.querySelector('title').textContent,
+    articleDescription: item.querySelector('description').textContent,
   }));
 
   return ({
