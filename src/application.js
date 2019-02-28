@@ -4,17 +4,15 @@ import {
   watch,
 } from 'melanke-watchjs';
 import parseXML from './XMLparser';
-import { renderChannelList } from './renderers';
-import _ from 'lodash';
+import renderChannelList from './renderers';
 
 const runUpdateEveryFiveSeconds = (links, corsUrl) => {
   const promises = links.map(item => axios.get(`${corsUrl}${item}`));
   console.log(promises);
   return Promise.all(promises).then((res) => {
     console.log(res);
-    const newChannelList = res.map((item) => parseXML(item.data));
-   return newChannelList
-    
+    const newChannelList = res.map(item => parseXML(item.data));
+    return newChannelList;
   });
 };
 
@@ -133,6 +131,15 @@ export default () => {
     }
   });
 
+  const runUpdate = () => {
+    const newschannels = runUpdateEveryFiveSeconds(state.channelLinks, corsApiUrl);
+    console.log(newschannels);
+    newschannels.then((res) => {
+      state.channels = res;
+    });
+    setTimeout(runUpdate, 5000);
+  };
+
   const element = document.getElementById('buttonOnSubmit');
   element.addEventListener('click', () => {
     const channelLink = document.getElementById('rssLinkInput').value;
@@ -144,30 +151,16 @@ export default () => {
       return;
     }
     state.channelLoadingState = 'inProgress';
-   
-
-    // runUpdateEveryFiveSeconds(state.channelRequests, channelLink);
-    
     axios.get(`${corsApiUrl}${channelLink}`).then((res) => {
-      console.log(state.channelLinks);
       state.linkValidationState = null;
       state.channels = [parseXML(res.data), ...state.channels];
       console.log(state.channels);
       state.channelLinks = [channelLink, ...state.channelLinks];
       state.channelLoadingState = 'succeeded';
+      runUpdate();
     }).catch(() => {
       state.channelLoadingState = 'failed';
       state.linkValidationState = null;
     });
   });
-  const runUpdate = () => {
-    const newschannels = runUpdateEveryFiveSeconds(state.channelLinks, corsApiUrl);
-    console.log(newschannels);
-   newschannels.then((res) => {
-    state.channels = res;
-    });
-  
-  setTimeout(runUpdate, 5000);
-  }
-  runUpdate();
 };

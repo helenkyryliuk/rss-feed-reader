@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-export const renderChannelList = (channels) => {
+const renderChannelList = (channels) => {
   const newList = document.createElement('div');
   newList.classList.add('container');
   channels.forEach((e) => {
@@ -59,3 +59,4 @@ export const renderChannelList = (channels) => {
   oldList.replaceWith(newList);
 };
 
+export default renderChannelList;
