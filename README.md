@@ -3,7 +3,10 @@
 
 
 # RSS Feed Reader 
- RSS Reader with automatic updating.
+
+## :white_check_mark: General info
+
+RSS Reader with automatic updating.
 
 http://helen-rss.surge.sh
 
