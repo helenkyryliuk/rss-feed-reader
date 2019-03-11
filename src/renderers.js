@@ -29,11 +29,11 @@ const renderChannelList = (channels) => {
       col4.classList.add('col-md-4');
       divRow.append(col4);
       const headerLink = document.createElement('a');
-      headerLink.setAttribute('href', article.articleLink);
-      headerLink.textContent = article.articleTitle;
+      headerLink.setAttribute('href', article.link);
+      headerLink.textContent = article.title;
       col4.appendChild(headerLink);
       const p = document.createElement('p');
-      p.textContent = article.articleDescription;
+      p.textContent = article.description;
       col4.appendChild(p);
       const paragraphLink = document.createElement('p');
       col4.appendChild(paragraphLink);
@@ -42,8 +42,8 @@ const renderChannelList = (channels) => {
       link.textContent = 'View details';
       link.setAttribute('data-toggle', 'modal');
       link.setAttribute('data-target', '#exampleModalCenter');
-      link.setAttribute('data-title', article.articleTitle);
-      link.setAttribute('data-content', article.articleDescription);
+      link.setAttribute('data-title', article.title);
+      link.setAttribute('data-content', article.description);
       paragraphLink.appendChild(link);
       return $('#exampleModalCenter').on('show.bs.modal', function (event) {
         const button = $(event.relatedTarget);

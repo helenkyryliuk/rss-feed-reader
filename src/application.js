@@ -6,12 +6,10 @@ import {
 import parseXML from './XMLparser';
 import renderChannelList from './renderers';
 
-const runUpdateEveryFiveSeconds = (links, corsUrl) => {
+const runUpdateEveryFiveSeconds = async (links, corsUrl) => {
   const promises = links.map(item => axios.get(`${corsUrl}${item}`));
-  return Promise.all(promises).then((res) => {
-    const newChannelList = res.map(item => parseXML(item.data));
-    return newChannelList;
-  });
+  const result = await axios.all(promises);
+  return result.map(item => parseXML(item.data));
 };
 
 const corsApiUrl = 'https://cors-anywhere.herokuapp.com/';
@@ -128,11 +126,9 @@ export default () => {
     }
   });
 
-  const runUpdate = () => {
-    const newschannels = runUpdateEveryFiveSeconds(state.channelLinks, corsApiUrl);
-    newschannels.then((res) => {
-      state.channels = res;
-    });
+  const runUpdate = async () => {
+    const newchannels = await runUpdateEveryFiveSeconds(state.channelLinks, corsApiUrl);
+    state.channels = newchannels;
     setTimeout(runUpdate, 5000);
   };
 
