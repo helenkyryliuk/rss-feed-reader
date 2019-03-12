@@ -6,9 +6,9 @@
 
 ## :white_check_mark: General info
 
-RSS Reader with automatic updating.
+[RSS](https://en.wikipedia.org/wiki/RSS) Reader with automatic updating.
 
-http://helen-rss.surge.sh
+### Homepage: http://helen-rss.surge.sh
 
 
 ## :arrow_forward: How to Run App
@@ -28,3 +28,19 @@ Project is created with:
 * JQuery
 * Webpack
 * DOMParser
+* CORS Proxy
+* WatchJS (pattern Observer for View)
+
+## :file_folder: Examples
+
+Provide a valid [rss](https://en.wikipedia.org/wiki/RSS) feed link. Click Add new feed to load all the latest channel articles with links, titles, and description.
+
+<p align="center">
+  <img alt="Typescript Editor Support – vscode" width="800" src="public/assets/MainPage.png">
+</p>
+
+Each of the loaded channels will be automatically updated every 5 seconds. All the new articles that appear in the channel will be loaded to the feed.
+
+<p align="center">
+  <img alt="Typescript Editor Support – vscode" width="800" src="public/assets/PageForUpdate.png">
+</p>
