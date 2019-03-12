@@ -42,5 +42,5 @@ Provide a valid [rss](https://en.wikipedia.org/wiki/RSS) feed link. Click Add ne
 Each of the loaded channels will be automatically updated every 5 seconds. All the new articles that appear in the channel will be loaded to the feed.
 
 <p align="center">
-  <img alt="RSS Reader automatically updates channel" width="800" src="https://i.ibb.co/ncdJnNX/Page-For-Update.png">
+  <img alt="RSS Reader automatically updates channel" width="800" src="https://ibb.co/pzVFRBH">
 </p>
