@@ -36,11 +36,11 @@ Project is created with:
 Provide a valid [rss](https://en.wikipedia.org/wiki/RSS) feed link. Click Add new feed to load all the latest channel articles with links, titles, and description.
 
 <p align="center">
-  <img alt="Typescript Editor Support – vscode" width="800" src="public/assets/MainPage.png">
+  <img alt="RSS Reader main page" width="800" src="https://i.ibb.co/w0DYzbc/MainPage.png"></a>">
 </p>
 
 Each of the loaded channels will be automatically updated every 5 seconds. All the new articles that appear in the channel will be loaded to the feed.
 
 <p align="center">
-  <img alt="Typescript Editor Support – vscode" width="800" src="public/assets/PageForUpdate.png">
+  <img alt="RSS Reader automatically updates channel" width="800" src="https://i.ibb.co/ncdJnNX/Page-For-Update.png">
 </p>
