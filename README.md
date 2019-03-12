@@ -37,7 +37,7 @@ Project is created with:
 Provide a valid [rss](https://en.wikipedia.org/wiki/RSS) feed link. Click Add new feed to load all the latest channel articles with links, titles, and description.
 
 <p align="center">
-  <img alt="RSS Reader main page" width="800" src="http://tinypic.com/r/fjg3g7/9">
+  <img alt="RSS Reader main page" width="800" src="https://user-images.githubusercontent.com/29301041/54170283-f413ac00-44da-11e9-9a5a-1122ca235aad.png">
 </p>
 
 Each of the loaded channels will be automatically updated every 5 seconds. All the new articles that appear in the channel will be loaded to the feed.
