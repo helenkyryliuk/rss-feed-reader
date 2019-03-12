@@ -31,7 +31,7 @@ Project is created with:
 * CORS Proxy
 * WatchJS (pattern Observer for View)
 
-## :file_folder: Examples
+<!-- ## :file_folder: Examples
 
 Provide a valid [rss](https://en.wikipedia.org/wiki/RSS) feed link. Click Add new feed to load all the latest channel articles with links, titles, and description.
 
@@ -43,4 +43,4 @@ Each of the loaded channels will be automatically updated every 5 seconds. All t
 
 <p align="center">
   <img alt="RSS Reader automatically updates channel" width="800" src="https://ibb.co/pzVFRBH">
-</p>
+</p> -->
