@@ -7,7 +7,6 @@ import ls from 'local-storage';
 import parseXML from './XMLparser';
 import renderChannelList from './renderers';
 
-
 const runUpdateEveryFiveSeconds = async (links, corsUrl) => {
   const promises = links.map(item => axios.get(`${corsUrl}${item}`));
   const result = await axios.all(promises);
@@ -16,10 +15,26 @@ const runUpdateEveryFiveSeconds = async (links, corsUrl) => {
 
 const corsApiUrl = 'https://cors-anywhere.herokuapp.com/';
 
+const removeValidFeedback = (tag) => {
+  return tag.classList.remove('valid-feedback');
+}
+
+const removeValidBorder = (tag) => {
+  return tag.remove('is-valid');
+}
+
+const addInvalidBorder = (tag) => {
+  return tag.add('is-invalid');
+}
+
+const addInvalidFeedback = (tag) => {
+  return tag.add('invalid-feedback');
+}
+
 export default () => {
   const state = {
     linkValidationState: 'emptyByDefault',
-    channels: ls.get('channels'),
+    channels: ls.get('channels') || [],
     channelLinks: ls.get('channelLinks') || [],
     channelLoadingState: null,
   };
@@ -29,10 +44,10 @@ export default () => {
     const validationMessage = document.getElementById('feedback');
     switch (state.linkValidationState) {
       case 'notvalid':
-        rssLinkInputBorder.classList.remove('is-valid');
-        rssLinkInputBorder.classList.add('is-invalid');
-        validationMessage.classList.remove('valid-feedback');
-        validationMessage.classList.add('invalid-feedback');
+        removeValidBorder(rssLinkInputBorder);
+        addInvalidBorder(rssLinkInputBorder);
+        removeValidFeedback(validationMessage);
+        addInvalidFeedback(validationMessage);
         validationMessage.textContent = 'Please provide a valid RSS feed link.';
         break;
       case 'valid':
@@ -45,7 +60,7 @@ export default () => {
       case 'linkAlreadyExists':
         rssLinkInputBorder.classList.remove('is-valid');
         rssLinkInputBorder.classList.add('is-invalid');
-        validationMessage.classList.remove('valid-feedback');
+        removeValidFeedback(validationMessage);
         validationMessage.classList.add('invalid-feedback');
         validationMessage.textContent = 'This channel has already been added. Please choose another one.';
         break;
@@ -53,7 +68,7 @@ export default () => {
         rssLinkInputBorder.classList.remove('is-invalid');
         validationMessage.classList.remove('invalid-feedback');
         rssLinkInputBorder.classList.remove('is-valid');
-        validationMessage.classList.remove('valid-feedback');
+        removeValidFeedback(validationMessage);
         validationMessage.textContent = '';
     }
   });
