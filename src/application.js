@@ -32,6 +32,17 @@ export default () => {
     channelLoadingState: null,
   };
 
+  const runUpdate = async () => {
+    if (state.channelLinks.length === 0) {
+      return;
+    }
+    const newchannels = await runUpdateEveryFiveSeconds(state.channelLinks, corsApiUrl);
+    state.channels = newchannels;
+    ls.set('channels', state.channels);
+    setTimeout(runUpdate, 5000);
+  };
+
+  runUpdate();
   watch(state, 'linkValidationState', () => {
     const rssLinkInputBorder = document.getElementById('rssLinkInput');
     const validationMessage = document.getElementById('feedback');
@@ -137,13 +148,6 @@ export default () => {
     }
   });
 
-  const runUpdate = async () => {
-    const newchannels = await runUpdateEveryFiveSeconds(state.channelLinks, corsApiUrl);
-    state.channels = newchannels;
-    ls.set('channels', state.channels);
-    setTimeout(runUpdate, 5000);
-  };
-
   const element = document.getElementById('buttonOnSubmit');
   element.addEventListener('click', () => {
     const channelLink = document.getElementById('rssLinkInput').value;
@@ -163,6 +167,7 @@ export default () => {
       state.channelLinks = [channelLink, ...state.channelLinks];
       ls.set('channelLinks', state.channelLinks);
       state.channelLoadingState = 'succeeded';
+
       runUpdate();
     }).catch(() => {
       state.channelLoadingState = 'failed';

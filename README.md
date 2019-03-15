@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/helenkyryliuk/project-lvl3-s402.svg?branch=master)](https://travis-ci.org/helenkyryliuk/project-lvl3-s414)
+[![Build Status](https://travis-ci.org/helenkyryliuk/project-lvl3-s414.svg?branch=master)](https://travis-ci.org/helenkyryliuk/project-lvl3-s414)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b7016cda432015a47740/maintainability)](https://codeclimate.com/github/helenkyryliuk/project-lvl3-s414/maintainability)
 
 # RSS Feed Reader 
