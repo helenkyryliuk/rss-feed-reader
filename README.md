@@ -3,9 +3,9 @@
 
 # RSS Feed Reader 
 
-### Homepage: http://helen-rss.surge.sh
-
 ## :white_check_mark: General info
+
+### Homepage: http://helen-rss.surge.sh
 
 [RSS](https://en.wikipedia.org/wiki/RSS) Reader with automatic updating.
 
@@ -34,6 +34,15 @@ Project is created with:
 ## :file_folder: Examples
 
 Provide a valid [rss](https://en.wikipedia.org/wiki/RSS) feed link. Click Add new feed to load all the latest channel articles with links, titles, and description.
+
+RSS links to test:
+
+* http://lambda-the-ultimate.org/rss.xml
+* Update every second:  http://lorem-rss.herokuapp.com/feed?unit=second
+* Update every 30 seconds:  http://lorem-rss.herokuapp.com/feed?unit=second&interval=30
+* Update every minute:  http://lorem-rss.herokuapp.com/feed
+
+
 
 <p align="center">
   <img alt="RSS Reader main page" width="800" src="https://user-images.githubusercontent.com/29301041/54170283-f413ac00-44da-11e9-9a5a-1122ca235aad.png">
