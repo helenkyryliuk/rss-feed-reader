@@ -1,6 +1,6 @@
 {
   "name": "helen-rss-reader",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "description": "RSS Reader",
   "main": "index.js",
   "scripts": {
