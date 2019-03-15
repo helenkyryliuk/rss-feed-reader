@@ -16,35 +16,17 @@ const renderChannelList = (channels) => {
     cardDiv.append(cardBody);
     cardBody.append(divRow);
     newList.append(cardDiv);
-    const headerForChannel = document.createElement('h5');
-    headerForChannel.classList.add('card-title', 'text-center');
-    const descriptionForChannel = document.createElement('p');
-    descriptionForChannel.classList.add('card-text', 'text-center');
-    headerForChannel.textContent = e.channelTitle;
-    descriptionForChannel.textContent = e.channelDescription;
-    headerRow.append(headerForChannel);
-    headerRow.append(descriptionForChannel);
+    headerRow.innerHTML = `<h5 class="card-title text-center">${e.channelTitle}</h5>\n
+    <p class="card-text text-center">${e.channelDescription}</p>`;
     e.channelArticles.map((article) => {
-      const col4 = document.createElement('div');
-      col4.classList.add('col-md-4');
-      divRow.append(col4);
-      const headerLink = document.createElement('a');
-      headerLink.setAttribute('href', article.link);
-      headerLink.textContent = article.title;
-      col4.appendChild(headerLink);
-      const p = document.createElement('p');
-      p.textContent = article.description;
-      col4.appendChild(p);
+      const cardBodyColumn = document.createElement('div');
+      cardBodyColumn.classList.add('col-md-4');
+      divRow.append(cardBodyColumn);
+      cardBodyColumn.innerHTML = `<a href="${article.link}">${article.title}</a><p>${article.description}</p>`;
       const paragraphLink = document.createElement('p');
-      col4.appendChild(paragraphLink);
-      const link = document.createElement('button');
-      link.classList.add('btn', 'btn-info');
-      link.textContent = 'View details';
-      link.setAttribute('data-toggle', 'modal');
-      link.setAttribute('data-target', '#exampleModalCenter');
-      link.setAttribute('data-title', article.title);
-      link.setAttribute('data-content', article.description);
-      paragraphLink.appendChild(link);
+      cardBodyColumn.appendChild(paragraphLink);
+      paragraphLink.innerHTML = `<button class="btn btn-info" data-content="${article.description}" \n
+      data-title="${article.title}" data-toggle='modal' data-target="#exampleModalCenter">View details</button>`;
       return $('#exampleModalCenter').on('show.bs.modal', function (event) {
         const button = $(event.relatedTarget);
         const header = button.data('title');

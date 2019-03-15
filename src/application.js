@@ -3,8 +3,10 @@ import validator from 'validator';
 import {
   watch,
 } from 'melanke-watchjs';
+import ls from 'local-storage';
 import parseXML from './XMLparser';
 import renderChannelList from './renderers';
+
 
 const runUpdateEveryFiveSeconds = async (links, corsUrl) => {
   const promises = links.map(item => axios.get(`${corsUrl}${item}`));
@@ -16,9 +18,9 @@ const corsApiUrl = 'https://cors-anywhere.herokuapp.com/';
 
 export default () => {
   const state = {
-    linkValidationState: null,
-    channels: [],
-    channelLinks: [],
+    linkValidationState: 'emptyByDefault',
+    channels: ls.get('channels'),
+    channelLinks: ls.get('channelLinks') || [],
     channelLoadingState: null,
   };
 
@@ -107,10 +109,11 @@ export default () => {
     }
   });
 
-  watch(state, ['channels'], () => {
+  watch(state, 'channels', () => {
     renderChannelList(state.channels);
   });
 
+  renderChannelList(state.channels);
   const inputField = document.getElementById('rssLinkInput');
   inputField.addEventListener('input', (e) => {
     state.channelLoadingState = null;
@@ -120,7 +123,7 @@ export default () => {
     } else if (checkIfChannelExists === true) {
       state.linkValidationState = 'linkAlreadyExists';
     } else if (e.target.value === '') {
-      state.linkValidationState = null;
+      state.linkValidationState = 'emptyByDefault';
     } else {
       state.linkValidationState = 'notvalid';
     }
@@ -129,13 +132,14 @@ export default () => {
   const runUpdate = async () => {
     const newchannels = await runUpdateEveryFiveSeconds(state.channelLinks, corsApiUrl);
     state.channels = newchannels;
+    ls.set('channels', state.channels);
     setTimeout(runUpdate, 5000);
   };
 
   const element = document.getElementById('buttonOnSubmit');
   element.addEventListener('click', () => {
     const channelLink = document.getElementById('rssLinkInput').value;
-    if ((channelLink === '')) {
+    if ((state.linkValidationState === 'emptyByDefault')) {
       state.linkValidationState = 'notvalid';
       return;
     }
@@ -144,14 +148,17 @@ export default () => {
     }
     state.channelLoadingState = 'inProgress';
     axios.get(`${corsApiUrl}${channelLink}`).then((res) => {
-      state.linkValidationState = null;
+      state.linkValidationState = 'emptyByDefault';
+
       state.channels = [parseXML(res.data), ...state.channels];
+      ls.set('channels', state.channels);
       state.channelLinks = [channelLink, ...state.channelLinks];
+      ls.set('channelLinks', state.channelLinks);
       state.channelLoadingState = 'succeeded';
       runUpdate();
     }).catch(() => {
       state.channelLoadingState = 'failed';
-      state.linkValidationState = null;
+      state.linkValidationState = 'emptyByDefault';
     });
   });
 };

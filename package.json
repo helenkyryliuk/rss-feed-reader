@@ -23,9 +23,10 @@
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
     "axios": "^0.18.0",
-    "bootstrap": "^4.1.2",
+    "bootstrap": "^4.3.1",
     "cors-anywhere": "^0.4.1",
     "jquery": "^3.3.1",
+    "local-storage": "^1.4.2",
     "lodash": "^4.17.11",
     "melanke-watchjs": "*",
     "popper.js": "^1.14.6",
