@@ -15,21 +15,14 @@ const runUpdateEveryFiveSeconds = async (links, corsUrl) => {
 
 const corsApiUrl = 'https://cors-anywhere.herokuapp.com/';
 
-const removeValidFeedback = (tag) => {
-  return tag.classList.remove('valid-feedback');
-}
+const removeValidFeedback = tag => tag.classList.remove('valid-feedback');
 
-const removeValidBorder = (tag) => {
-  return tag.remove('is-valid');
-}
+const removeValidBorder = tag => tag.remove('is-valid');
 
-const addInvalidBorder = (tag) => {
-  return tag.add('is-invalid');
-}
+const addInvalidBorder = tag => tag.add('is-invalid');
 
-const addInvalidFeedback = (tag) => {
-  return tag.add('invalid-feedback');
-}
+const addInvalidFeedback = tag => tag.add('invalid-feedback');
+
 
 export default () => {
   const state = {
