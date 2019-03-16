@@ -17,11 +17,11 @@ const corsApiUrl = 'https://cors-anywhere.herokuapp.com/';
 
 const removeValidFeedback = tag => tag.classList.remove('valid-feedback');
 
-const removeValidBorder = tag => tag.remove('is-valid');
+const removeValidBorder = tag => tag.classList.remove('is-valid');
 
-const addInvalidBorder = tag => tag.add('is-invalid');
+const addInvalidBorder = tag => tag.classList.add('is-invalid');
 
-const addInvalidFeedback = tag => tag.add('invalid-feedback');
+const addInvalidFeedback = tag => tag.classList.add('invalid-feedback');
 
 
 export default () => {
