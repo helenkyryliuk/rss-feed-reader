@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/helenkyryliuk/RSS-Feed-Reader.svg?branch=master)](https://travis-ci.org/helenkyryliuk/RSS-Feed-Reader)
-[![Maintainability](https://api.codeclimate.com/v1/badges/7741831cd657b74e0cb1/maintainability)](https://codeclimate.com/github/helenkyryliuk/RSS-Feed-Reader/maintainability)
+[![Build Status](https://travis-ci.org/helenkyryliuk/rss-feed-reader.svg?branch=master)](https://travis-ci.org/helenkyryliuk/rss-feed-reader)
+[![Maintainability](https://api.codeclimate.com/v1/badges/e6b511b860c3ca2940a2/maintainability)](https://codeclimate.com/github/helenkyryliuk/rss-feed-reader/maintainability)
 # RSS Feed Reader 
 
 ## :white_check_mark: General info
