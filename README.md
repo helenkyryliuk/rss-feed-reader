@@ -8,6 +8,29 @@
 
 [RSS](https://en.wikipedia.org/wiki/RSS) Reader with automatic updating of all the feeds every 5 seconds.
 
+## :file_folder: Examples
+
+Provide a valid [rss](https://en.wikipedia.org/wiki/RSS) feed link. Click Add new feed to load all the latest channel articles with links, titles, and description.
+
+RSS links to test:
+
+* Update every second:  http://lorem-rss.herokuapp.com/feed?unit=second
+* Update every 30 seconds:  http://lorem-rss.herokuapp.com/feed?unit=second&interval=30
+* Update every minute:  http://lorem-rss.herokuapp.com/feed
+* https://ru.hexlet.io/blog.rss
+* https://ru.hexlet.io/lessons.rss
+
+
+
+<p align="center">
+  <img alt="RSS Reader main page" src="https://user-images.githubusercontent.com/29301041/58387899-fbbf0780-806a-11e9-8cd4-9a8f5a73229a.gif">
+</p>
+
+All feeds will be automatically updated every 5 seconds even after reloading the page. All the new articles that appear in the Rss will be loaded to the feed.
+
+<p align="center">
+  <img alt="RSS Reader automatically updates channel" src="https://user-images.githubusercontent.com/29301041/58387994-6cb2ef00-806c-11e9-8181-a9b23984eed9.gif">
+</p>
 
 ## :arrow_forward: How to Run App
 
@@ -29,27 +52,3 @@ Project is created with:
 * CORS Proxy
 * WatchJS (pattern Observer for View)
 
-
-## :file_folder: Examples
-
-Provide a valid [rss](https://en.wikipedia.org/wiki/RSS) feed link. Click Add new feed to load all the latest channel articles with links, titles, and description.
-
-RSS links to test:
-
-* Update every second:  http://lorem-rss.herokuapp.com/feed?unit=second
-* Update every 30 seconds:  http://lorem-rss.herokuapp.com/feed?unit=second&interval=30
-* Update every minute:  http://lorem-rss.herokuapp.com/feed
-* https://ru.hexlet.io/blog.rss
-* https://ru.hexlet.io/lessons.rss
-
-
-
-<p align="center">
-  <img alt="RSS Reader main page" width="800" src="https://user-images.githubusercontent.com/29301041/54483337-4deaec00-48b6-11e9-82bf-9499ea37a522.png">
-</p>
-
-All feeds will be automatically updated every 5 seconds even after reloading the page. All the new articles that appear in the Rss will be loaded to the feed.
-
-<p align="center">
-  <img alt="RSS Reader automatically updates channel" width="800" src="https://user-images.githubusercontent.com/29301041/54483347-71159b80-48b6-11e9-9ee4-80a185d92119.png">
-</p>
