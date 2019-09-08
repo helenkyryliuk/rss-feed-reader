@@ -19,14 +19,15 @@ const renderChannelList = (channels) => {
     headerRow.innerHTML = `<h5 class="card-title text-center">${e.channelTitle}</h5>\n
     <p class="card-text text-center">${e.channelDescription}</p>`;
     e.channelArticles.map((article) => {
+      console.log(article.channelMedia);
       const cardBodyColumn = document.createElement('div');
       cardBodyColumn.classList.add('col-md-12');
-    
+
       divRow.append(cardBodyColumn);
-      cardBodyColumn.innerHTML = `<a href="${article.link}">${article.title}</a><p>${article.description}</p>`;
+      cardBodyColumn.innerHTML = `<a href="${article.link}"><h5 class="card-title text-dark">${article.title}</h5></a><p>${article.description}</p>`;
       const paragraphLink = document.createElement('p');
       cardBodyColumn.appendChild(paragraphLink);
-      paragraphLink.innerHTML = `<div class="text-right"><button class="btn btn-info" data-content="${article.description}" \n
+      paragraphLink.innerHTML = `<div class="text-right"><button class="btn btn-secondary" data-content="${article.description}" \n
       data-title="${article.title}" data-toggle='modal' data-target="#exampleModalCenter">View details</button></div>`;
       return $('#exampleModalCenter').on('show.bs.modal', function (event) {
         const button = $(event.relatedTarget);
