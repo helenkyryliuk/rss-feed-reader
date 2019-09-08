@@ -19,7 +19,6 @@ const renderChannelList = (channels) => {
     headerRow.innerHTML = `<h5 class="card-title text-center">${e.channelTitle}</h5>\n
     <p class="card-text text-center">${e.channelDescription}</p>`;
     e.channelArticles.map((article) => {
-      console.log(article.channelMedia);
       const cardBodyColumn = document.createElement('div');
       cardBodyColumn.classList.add('col-md-12');
 
