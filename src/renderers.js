@@ -20,10 +20,12 @@ const renderChannelList = (channels) => {
     <p class="card-text text-center">${e.channelDescription}</p>`;
     e.channelArticles.map((article) => {
       const cardBodyColumn = document.createElement('div');
-      cardBodyColumn.classList.add('col-md-12');
-
+      cardBodyColumn.classList.add('col-md-4');
+      cardBodyColumn.innerHTML = `<a href="${article.link}"><h5 class="card-title text-dark">${article.title}</h5></a>${article.channelMedia ? `<img style="height:200; width: inherit;" src=${article.channelMedia}></img>` : ''}<p class="mt-2">${article.description}</p>`;
       divRow.append(cardBodyColumn);
-      cardBodyColumn.innerHTML = `<a href="${article.link}"><h5 class="card-title text-dark">${article.title}</h5></a><p>${article.description}</p>`;
+      const image = document.createElement('div');
+      image.classList.add('col-md-12', 'mb-4');
+      cardBodyColumn.appendChild(image);
       const paragraphLink = document.createElement('p');
       cardBodyColumn.appendChild(paragraphLink);
       paragraphLink.innerHTML = `<div class="text-right"><button class="btn btn-secondary" data-content="${article.description}" \n
