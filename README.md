@@ -13,10 +13,9 @@
 Provide a valid [rss](https://en.wikipedia.org/wiki/RSS) feed link. Click Add new feed to load all the latest channel articles with links, titles, and description.
 
 RSS links to test:
-* [NZ News](http://rss.nzherald.co.nz/rss/xml/nzhrsscid_000000001.xml) - The latest news from New Zealand
+* [US News](http://www.cbn.com/cbnnews/us/feed/) - The latest CBN US news
 * [Link](http://lorem-rss.herokuapp.com/feed?unit=second) - RSS with every second update
-* [Rugby](http://rss.nzherald.co.nz/rss/xml/nzhrsscid_000000080.xml) - All the latest news a rugby head needs to know
-* [Sport](http://rss.nzherald.co.nz/rss/xml/nzhrsscid_000000004.xml) - The latest sports news, match reports and live scores
+
 <p align="center">
   <img alt="RSS Reader main page" src="https://user-images.githubusercontent.com/29301041/58387899-fbbf0780-806a-11e9-8cd4-9a8f5a73229a.gif">
 </p>

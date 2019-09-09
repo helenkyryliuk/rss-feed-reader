@@ -9,7 +9,7 @@ const renderChannelList = (channels) => {
     const headerRow = document.createElement('div');
     headerRow.classList.add('card-header');
     const cardDiv = document.createElement('div');
-    cardDiv.classList.add('card', 'bg-light');
+    cardDiv.classList.add('card', 'bg-light', 'mt-4');
     const cardBody = document.createElement('div');
     cardBody.classList.add('card-body');
     cardDiv.append(headerRow);
