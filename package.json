@@ -22,7 +22,7 @@
   "homepage": "https://github.com/helenkyryliuk/project-lvl3-s390#readme",
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "bootstrap": "^4.3.1",
     "cors-anywhere": "^0.4.1",
     "helen_brain_game": "0.0.6",
